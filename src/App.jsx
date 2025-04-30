@@ -101,44 +101,86 @@ function App() {
   const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   // Utility functions
-  const fetchRecommendations = async (productId) => {
-    try {
-      const response = await fetch('http://localhost:5000/api/recommendations', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ product_id: productId })
-      });
-      const data = await response.json();
-      if (data.success) {
-        setRecommendations(data.recommendations);
-      }
-    } catch (error) {
-      console.error('Error fetching recommendations:', error);
+const fetchRecommendations = async (productId) => {
+  try {
+    const response = await fetch('http://localhost:5000/api/recommendations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ product_id: productId })
+    });
+    
+    // Check if response is ok
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  };
+    
+    // Get response as text first
+    const text = await response.text();
+    
+    // Only parse if there's content
+    if (!text) {
+      setRecommendations([]);
+      return;
+    }
+    
+    // Try to parse the JSON
+    const data = JSON.parse(text);
+    
+    if (data.success) {
+      setRecommendations(data.recommendations);
+    } else {
+      setRecommendations([]);
+      console.warn('API returned unsuccessful response:', data);
+    }
+  } catch (error) {
+    console.error('Error fetching recommendations:', error);
+    setRecommendations([]); // Set empty array on error
+  }
+};
 
-  const chatWithAssistant = async (query, productContext) => {
-    try {
-      const response = await fetch('http://localhost:5000/api/assistant', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          query: query,
-          context: productContext
-        })
-      });
-      const data = await response.json();
-      if (data.success) {
-        setAssistantResponse(data.response);
-      }
-    } catch (error) {
-      console.error('Error chatting with assistant:', error);
+const chatWithAssistant = async (query, productContext) => {
+  try {
+    const response = await fetch('http://localhost:5000/api/assistant', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        query: query,
+        context: productContext
+      })
+    });
+    
+    // Check if response is ok
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  };
+    
+    // Get response as text first
+    const text = await response.text();
+    
+    // Only parse if there's content
+    if (!text) {
+      setAssistantResponse('Sorry, no response received');
+      return;
+    }
+    
+    // Try to parse the JSON
+    const data = JSON.parse(text);
+    
+    if (data.success) {
+      setAssistantResponse(data.response);
+    } else {
+      setAssistantResponse('Sorry, could not process your request');
+      console.warn('API returned unsuccessful response:', data);
+    }
+  } catch (error) {
+    console.error('Error chatting with assistant:', error);
+    setAssistantResponse('Sorry, an error occurred while processing your request');
+  }
+};
 
   useEffect(() => {
     // Initialize Telegram WebApp
