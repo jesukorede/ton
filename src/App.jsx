@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useMetaverse } from './components/MetaverseContext';
 import VirtualRoom from './components/VirtualRoom';
-import CartDrawer from './components/CartDrawer';
-import SellerSection from './components/SellerSection';
-import ReelsComponent from './components/ReelsComponent';
 import './App.css';
 
 // Mock product data with metaverse features
@@ -101,14 +98,6 @@ function App() {
   const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   // Utility functions
-  const fetchRecommendations = async (productId) => {
-    setRecommendations([]); // Just set empty recommendations
-  };
-
-  // Replace the chatWithAssistant function with a dummy version
-  const chatWithAssistant = async (query, productContext) => {
-    setAssistantResponse("This feature is currently unavailable.");
-  };
 
   useEffect(() => {
     // Initialize Telegram WebApp
