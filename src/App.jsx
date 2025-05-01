@@ -76,8 +76,6 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isMetaverseMode, setIsMetaverseMode] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [assistantResponse, setAssistantResponse] = useState(null);
-  const [recommendations, setRecommendations] = useState([]);
   const [isSellerMode, setIsSellerMode] = useState(false);
   const [showReels, setShowReels] = useState(false);
   const [newProduct, setNewProduct] = useState({
