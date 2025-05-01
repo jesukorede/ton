@@ -5,14 +5,13 @@ export default defineConfig({
   base: '/ton/',
   plugins: [react()],
   server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-    },
+    port: 3000,
+    host: true
   },
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: true,
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
@@ -23,6 +22,11 @@ export default defineConfig({
           'socket-vendor': ['socket.io-client']
         }
       }
+    }
+  },
+  resolve: {
+    alias: {
+      '@': '/src'
     }
   }
 })
