@@ -8,7 +8,7 @@
 
 # production
 /build
-/dist
+# /dist  <- Comment this out to allow dist folder for gh-pages
 
 # misc
 .DS_Store
