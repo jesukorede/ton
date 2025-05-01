@@ -11,7 +11,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: true,
+    sourcemap: false, // Disable sourcemap for production
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
@@ -22,11 +22,6 @@ export default defineConfig({
           'socket-vendor': ['socket.io-client']
         }
       }
-    }
-  },
-  resolve: {
-    alias: {
-      '@': '/src'
     }
   }
 })
