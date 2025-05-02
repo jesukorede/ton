@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useMetaverse } from './components/MetaverseContext';
 import VirtualRoom from './components/VirtualRoom';
 import './App.css';
-
 // Mock product data with metaverse features
 const products = [
   {
